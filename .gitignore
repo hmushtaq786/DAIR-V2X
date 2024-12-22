@@ -3,5 +3,6 @@
 */*/*/__pycache__
 /data/road-side
 /data/vehicle-side
+/data/DAIR-V2X
 /cache
 *.pth
