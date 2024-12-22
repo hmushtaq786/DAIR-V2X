@@ -4,5 +4,6 @@
 /data/road-side
 /data/vehicle-side
 /data/DAIR-V2X
+/tmp_file
 /cache
 *.pth
