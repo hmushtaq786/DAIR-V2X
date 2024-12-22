@@ -17,7 +17,7 @@ Follow the steps below to prepare the DAIR-V2X dataset for conversion into the K
 
 ### 1. Rearrange the Data Content
 
-Organize the data into the following directory structure:
+- Organize the data into the following directory structure:
 
 <pre>
 cooperative-vehicle-infrastructure/
@@ -38,3 +38,5 @@ cooperative-vehicle-infrastructure/
 				├── {id}.json
 		├── data_info.json
 </pre>
+
+- Place the resulted "cooperative-vehicle-infrastructure" folder under data/DAIR-V2X/
