@@ -40,3 +40,15 @@ cooperative-vehicle-infrastructure/
 </pre>
 
 - Place the resulted "cooperative-vehicle-infrastructure" folder under data/DAIR-V2X/
+
+### 2. Execute the code
+
+- Once in the repository folder, run the following command:
+
+<pre>
+python tools/dataset_converter/dair2kitti.py --source-root ./data/DAIR-V2X/cooperative-vehicle-infrastructure/infrastructure-side --target-root ./data/DAIR-V2X/KITTI --split-path ./data/split_datas/single-infrastructure-split-data.json --label-type lidar --sensor-view infrastructure --no-classmerge
+</pre>
+
+### 2. Successful output
+
+- Once the code has finished processing, the resulted data in KITTI format will be available in data/DAIR-V2X/KITTI
