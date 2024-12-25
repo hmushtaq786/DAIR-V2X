@@ -3,7 +3,6 @@
 <div align="center">
 	<h3>
 		<a href="https://thudair.baai.ac.cn/index">Project Page</a> |
-		<a href="#dataset">Dataset Download</a> |
 		<a href="https://arxiv.org/abs/2204.05575">arXiv</a> |
 		<a href="https://github.com/AIR-THU/DAIR-V2X/">OpenDAIRV2X</a>
 	</h3>
