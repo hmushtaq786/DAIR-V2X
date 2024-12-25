@@ -1,11 +1,10 @@
-import os
-import math
 import json
+import math
+import os
 import errno
 import numpy as np
-import open3d as o3d
 from pypcd import pypcd
-
+import open3d as o3d
 
 def mkdir_p(path):
     try:
@@ -42,6 +41,19 @@ def write_json(path_json, new_dict):
         json.dump(new_dict, f)
 
 
+def write_txt(path, file):
+    with open(path, "w") as f:
+        f.write(file)
+
+
+def get_files_path(path_my_dir, extention=".json"):
+    path_list = []
+    for (dirpath, dirnames, filenames) in os.walk(path_my_dir):
+        for filename in filenames:
+            if os.path.splitext(filename)[1] == extention:
+                path_list.append(os.path.join(dirpath, filename))
+    return path_list
+
 def read_pcd(path_pcd):
     pointpillar = o3d.io.read_point_cloud(path_pcd)
     points = np.asarray(pointpillar.points)
@@ -63,16 +75,28 @@ def show_pcd(path_pcd):
 
 
 def pcd2bin(pcd_file_path, bin_file_path):
-    pc = pypcd.PointCloud.from_path(pcd_file_path)
+    try:
+        # Load the point cloud using Open3D
+        pcd = o3d.io.read_point_cloud(pcd_file_path)
 
-    np_x = (np.array(pc.pc_data["x"], dtype=np.float32)).astype(np.float32)
-    np_y = (np.array(pc.pc_data["y"], dtype=np.float32)).astype(np.float32)
-    np_z = (np.array(pc.pc_data["z"], dtype=np.float32)).astype(np.float32)
-    np_i = (np.array(pc.pc_data["intensity"], dtype=np.float32)).astype(np.float32) / 255
+        # Convert the point cloud data to a NumPy array
+        points = np.asarray(pcd.points, dtype=np.float32)
 
-    points_32 = np.transpose(np.vstack((np_x, np_y, np_z, np_i)))
-    points_32.tofile(bin_file_path)
+        # If colors or intensities are available, normalize them
+        if pcd.has_colors():
+            # Use the average of RGB values as intensity
+            intensity = np.mean(np.asarray(pcd.colors), axis=1).astype(np.float32)[:, np.newaxis]
+        else:
+            # Default intensity to zeros
+            intensity = np.zeros((points.shape[0], 1), dtype=np.float32)
 
+        # Combine x, y, z, and intensity into a single array
+        points_32 = np.hstack((points, intensity))
+
+        # Save the combined data as a binary file
+        points_32.astype(np.float32).tofile(bin_file_path)
+    except Exception as e:
+        print(f"Error processing {pcd_file_path}: {e}")
 
 def inverse_matrix(R):
     R = np.matrix(R)
@@ -220,3 +244,4 @@ def get_virtuallidar2world(path_virtuallidar2world):
     rotation = np.array(rotation).reshape(3, 3)
     translation = np.array(translation).reshape(3, 1)
     return rotation, translation
+

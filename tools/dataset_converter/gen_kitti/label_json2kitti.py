@@ -1,5 +1,5 @@
 import os
-from utils import mkdir_p, read_json, get_files_path
+from .utils import mkdir_p, read_json, get_files_path
 
 
 def write_kitti_in_txt(my_json, path_txt):
@@ -31,7 +31,7 @@ def json2kitti(json_root, kitti_label_root):
     jsons_path = get_files_path(json_root, ".json")
     for json_path in jsons_path:
         my_json = read_json(json_path)
-        name = json_path.split("/")[-1][:-5] + ".txt"
+        name = json_path[-11:].split(".")[0] + ".txt"
         path_txt = os.path.join(kitti_label_root, name)
         write_kitti_in_txt(my_json, path_txt)
 
